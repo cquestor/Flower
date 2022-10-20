@@ -1,0 +1,46 @@
+<template>
+  <div id="container">
+    <input type="text" name="username" v-model="username" /><br />
+    <input type="password" name="userpwd" v-model="userpwd" /><br />
+    <button @click="login">登录</button>
+  </div>
+</template>
+
+<script>
+import { login } from "../../api";
+
+export default {
+  name: "Login",
+  mounted() {
+    localStorage.removeItem("userid");
+    localStorage.removeItem("username");
+    localStorage.removeItem("usertype");
+    localStorage.removeItem("access_halfsay");
+  },
+  data() {
+    return {
+      username: "",
+      userpwd: ""
+    };
+  },
+  methods: {
+    login() {
+      login({ username: this.username, userpwd: this.userpwd }).then(res => {
+        if (res.statusCode !== 200) {
+          this.$bus.emit("error", res.message);
+        } else {
+          this.$bus.emit("success", res.message);
+          this.$router.replace("/index");
+        }
+      });
+    }
+  }
+};
+</script>
+
+<style scoped>
+#container {
+  width: 100%;
+  height: 100%;
+}
+</style>
