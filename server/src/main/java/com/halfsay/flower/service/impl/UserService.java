@@ -7,6 +7,8 @@ import com.halfsay.flower.service.IUserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.List;
+
 @Service
 public class UserService implements IUserService {
 
@@ -22,5 +24,10 @@ public class UserService implements IUserService {
         QueryWrapper<Userinfo> queryWrapper = new QueryWrapper<Userinfo>();
         queryWrapper.eq("username", username);
         return userMapper.selectOne(queryWrapper);
+    }
+
+    @Override
+    public List<Userinfo> getWorkerList() {
+        return userMapper.selectList(null);
     }
 }

@@ -49,6 +49,7 @@ body,
   outline: none;
   box-sizing: border-box;
   font-family: Helvetica, Arial, sans-serif;
+  user-select: none;
 }
 
 #messageBox {

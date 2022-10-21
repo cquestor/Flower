@@ -1,5 +1,7 @@
 package com.halfsay.flower.controller;
 
+import com.github.pagehelper.PageHelper;
+import com.github.pagehelper.PageInfo;
 import com.halfsay.flower.annotation.JWTIgnore;
 import com.halfsay.flower.pojo.Loginuser;
 import com.halfsay.flower.pojo.Result;
@@ -8,10 +10,9 @@ import com.halfsay.flower.service.IUserService;
 import com.halfsay.flower.utils.JWTUtils;
 import com.halfsay.flower.utils.MDigest5;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.CrossOrigin;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
+
+import java.util.List;
 
 @RestController
 @RequestMapping("/user")
@@ -70,4 +71,27 @@ public class UserController {
         return result;
     }
 
+    @RequestMapping("/getworkerlist/{pageIndex}/{pageSize}")
+    public Result getPageWorkerList(@PathVariable(value = "pageIndex", required = false) Integer pageIndex, @PathVariable(value = "pageSize", required = false) Integer pageSize) {
+        Result result = new Result();
+        try {
+            pageIndex = pageIndex == null || pageIndex < 0 ? 1 : pageIndex;
+            pageSize = pageSize == null || pageSize < 1 ? 12 : pageSize;
+            PageHelper.startPage(pageIndex, pageSize);
+            List<Userinfo> list = userService.getWorkerList();
+            PageInfo<Userinfo> pageInfo = new PageInfo<Userinfo>(list);
+            if (pageInfo != null && pageInfo.getTotal() > 0) {
+                result.setStatusCode(200);
+                result.setMessage("success");
+                result.setData(pageInfo);
+            } else {
+                result.setStatusCode(404);
+                result.setMessage("没有查询到数据");
+            }
+        } catch (Exception e) {
+            result.setStatusCode(500);
+            result.setMessage("查询数据出错，请与管理员联系");
+        }
+        return result;
+    }
 }
