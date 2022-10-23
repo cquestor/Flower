@@ -2,14 +2,14 @@
   <div id="app">
     <router-view />
     <div id="messageBox">
-      {{message}}
+      {{ message }}
     </div>
   </div>
 </template>
 
 <script>
 export default {
-  name: 'App',
+  name: "App",
   mounted() {
     this.$bus.on("success", this.successMessage);
     this.$bus.on("error", this.errorMessage);
@@ -17,21 +17,29 @@ export default {
   data() {
     return {
       message: ""
-    }
+    };
   },
   methods: {
     successMessage(text) {
       this.message = text;
       document.getElementById("messageBox").classList.add("sucMessage");
-      setTimeout(() => document.getElementById("messageBox").classList.remove("sucMessage"), 1500);
+      setTimeout(
+        () =>
+          document.getElementById("messageBox").classList.remove("sucMessage"),
+        1500
+      );
     },
     errorMessage(text) {
       this.message = text;
       document.getElementById("messageBox").classList.add("errMessage");
-      setTimeout(() => document.getElementById("messageBox").classList.remove("errMessage"), 1500);
+      setTimeout(
+        () =>
+          document.getElementById("messageBox").classList.remove("errMessage"),
+        1500
+      );
     }
   }
-}
+};
 </script>
 
 <style>
@@ -68,14 +76,14 @@ body,
 }
 
 .sucMessage {
-  background-color: #0a8e41;
-  border-right: 8px solid #065c2a;
+  background-color: #8ebf8b;
+  border-right: 8px solid #65bc61;
   animation: showMessage 1.5s ease-in-out;
 }
 
 .errMessage {
-  background-color: #d60b18;
-  border-right: 8px solid #930912;
+  background-color: #f77751;
+  border-right: 8px solid #f75e30;
   animation: showMessage 1.5s ease-in-out;
 }
 

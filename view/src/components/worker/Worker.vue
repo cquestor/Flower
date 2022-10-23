@@ -2,7 +2,7 @@
   <div id="container">
     <!-- 新增|删除 按钮 -->
     <div id="btnBar">
-      <span class="btn">
+      <span class="btn" @click="addWorker">
         <svg
           viewBox="0 0 1024 1024"
           version="1.1"
@@ -36,13 +36,18 @@
             fill="#eeeeee"
           ></path>
         </svg>
-        <span>批量删除</span>
+        <span @click="deleteList">批量删除</span>
       </span>
     </div>
 
     <!-- 员工信息 -->
     <div id="content">
-      <div id="preBtn" class="pageBtn">
+      <div
+        id="preBtn"
+        class="pageBtn"
+        :style="worker.hasPreviousPage ? '' : 'visibility: hidden;'"
+        @click="prePage"
+      >
         <svg
           t="1666345992968"
           class="icon"
@@ -64,6 +69,9 @@
         <table>
           <thead>
             <tr>
+              <th>
+                <input type="checkbox" @click="ckAll" />
+              </th>
               <th>姓名</th>
               <th>性别</th>
               <th>类型</th>
@@ -72,148 +80,25 @@
               <th>操作</th>
             </tr>
           </thead>
+
           <tbody>
-            <tr>
-              <td>陈乾</td>
-              <td>男</td>
-              <td>店长</td>
-              <td>江苏省常州市</td>
-              <td>15722791067</td>
+            <tr v-for="item in worker.list" :key="item.id">
+              <td>
+                <input
+                  type="checkbox"
+                  ref="ckbox"
+                  :value="item.id"
+                  @click="ckSelect"
+                />
+              </td>
+              <td>{{ item.username }}</td>
+              <td>{{ item.gender }}</td>
+              <td>{{ item.usertypeName }}</td>
+              <td>{{ item.address }}</td>
+              <td>{{ item.phone }}</td>
               <td class="actions">
-                <span>修改</span>
-                <span>删除</span>
-              </td>
-            </tr>
-
-            <tr>
-              <td>陈乾</td>
-              <td>男</td>
-              <td>店长</td>
-              <td>江苏省常州市</td>
-              <td>15722791067</td>
-              <td>
-                <span>修改</span>
-                <span>删除</span>
-              </td>
-            </tr>
-
-            <tr>
-              <td>陈乾</td>
-              <td>男</td>
-              <td>店长</td>
-              <td>江苏省常州市</td>
-              <td>15722791067</td>
-              <td>
-                <span>修改</span>
-                <span>删除</span>
-              </td>
-            </tr>
-
-            <tr>
-              <td>陈乾</td>
-              <td>男</td>
-              <td>店长</td>
-              <td>江苏省常州市</td>
-              <td>15722791067</td>
-              <td>
-                <span>修改</span>
-                <span>删除</span>
-              </td>
-            </tr>
-
-            <tr>
-              <td>陈乾</td>
-              <td>男</td>
-              <td>店长</td>
-              <td>江苏省常州市</td>
-              <td>15722791067</td>
-              <td>
-                <span>修改</span>
-                <span>删除</span>
-              </td>
-            </tr>
-
-            <tr>
-              <td>陈乾</td>
-              <td>男</td>
-              <td>店长</td>
-              <td>江苏省常州市</td>
-              <td>15722791067</td>
-              <td>
-                <span>修改</span>
-                <span>删除</span>
-              </td>
-            </tr>
-
-            <tr>
-              <td>陈乾</td>
-              <td>男</td>
-              <td>店长</td>
-              <td>江苏省常州市</td>
-              <td>15722791067</td>
-              <td>
-                <span>修改</span>
-                <span>删除</span>
-              </td>
-            </tr>
-
-            <tr>
-              <td>陈乾</td>
-              <td>男</td>
-              <td>店长</td>
-              <td>江苏省常州市</td>
-              <td>15722791067</td>
-              <td>
-                <span>修改</span>
-                <span>删除</span>
-              </td>
-            </tr>
-
-            <tr>
-              <td>陈乾</td>
-              <td>男</td>
-              <td>店长</td>
-              <td>江苏省常州市</td>
-              <td>15722791067</td>
-              <td>
-                <span>修改</span>
-                <span>删除</span>
-              </td>
-            </tr>
-
-            <tr>
-              <td>陈乾</td>
-              <td>男</td>
-              <td>店长</td>
-              <td>江苏省常州市</td>
-              <td>15722791067</td>
-              <td class="actions">
-                <span>修改</span>
-                <span>删除</span>
-              </td>
-            </tr>
-
-            <tr>
-              <td>陈乾</td>
-              <td>男</td>
-              <td>店长</td>
-              <td>江苏省常州市</td>
-              <td>15722791067</td>
-              <td class="actions">
-                <span>修改</span>
-                <span>删除</span>
-              </td>
-            </tr>
-
-            <tr>
-              <td>陈乾</td>
-              <td>男</td>
-              <td>店长</td>
-              <td>江苏省常州市</td>
-              <td>15722791067</td>
-              <td class="actions">
-                <span>修改</span>
-                <span>删除</span>
+                <span id="updateBtn" @click="updateOne(item)">修改</span>
+                <span id="deleteBtn" @click="delOne(item.id)">删除</span>
               </td>
             </tr>
           </tbody>
@@ -222,12 +107,23 @@
         <!-- 页数指示 -->
         <div id="pageCount">
           <ul>
-            <li></li>
-            <li></li>
+            <li
+              v-for="item in worker.navigatepageNums"
+              :key="item"
+              :class="item == worker.pageNum ? 'li-active' : ''"
+              @click="load(item)"
+            ></li>
           </ul>
         </div>
       </div>
-      <div id="sufBtn" class="pageBtn">
+
+      <!-- 下一页 -->
+      <div
+        id="sufBtn"
+        class="pageBtn"
+        :style="worker.hasNextPage ? '' : 'visibility: hidden;'"
+        @click="nextPage"
+      >
         <svg
           viewBox="0 0 1024 1024"
           version="1.1"
@@ -248,8 +144,85 @@
 </template>
 
 <script>
+import { getWorkerList, deleteWorkers } from "../../api";
+
 export default {
-  name: "Worker"
+  name: "Worker",
+  mounted() {
+    this.load(1);
+  },
+  data() {
+    return {
+      worker: [],
+      ids: [],
+      allChecked: true
+    };
+  },
+  methods: {
+    load(pageIndex) {
+      getWorkerList(pageIndex).then(res => {
+        this.worker = res.data;
+      });
+    },
+    addWorker() {
+      this.$router.push({ path: "/index/addworker" });
+    },
+    nextPage() {
+      this.load(this.worker.nextPage);
+    },
+    prePage() {
+      this.load(this.worker.prePage);
+    },
+    ckSelect(e) {
+      let id = e.target._value;
+      if (this.ids.indexOf(id) == -1) {
+        this.ids.push(id);
+      } else {
+        this.ids.splice(this.ids.indexOf(id), 1);
+      }
+    },
+    ckAll(e) {
+      this.ids = [];
+      const ckboxs = this.$refs["ckbox"];
+      ckboxs.forEach(element => {
+        element.checked = e.target.checked;
+      });
+      if (e.target.checked) {
+        this.worker.list.forEach(item => {
+          this.ids.push(item.id);
+        });
+      }
+    },
+    delOne(target) {
+      const confirm = window.confirm("确定要删除吗？");
+      if (!confirm) return;
+      deleteWorkers({ ids: [target] }).then(res => {
+        if (res.statusCode === 200) {
+          this.$bus.emit("success", res.message);
+          this.load(this.worker.pageNum);
+        } else {
+          this.$bus.emit("error", res.message);
+        }
+      });
+    },
+    deleteList() {
+      if (this.ids.length > 0) {
+        const confirm = window.confirm("确定要删除吗？");
+        if (!confirm) return;
+        deleteWorkers({ ids: this.ids }).then(res => {
+          if (res.statusCode === 200) {
+            this.$bus.emit("success", res.message);
+            this.load(this.worker.pageNum);
+          } else {
+            this.$bus.emit("error", res.message);
+          }
+        });
+      }
+    },
+    updateOne(model) {
+      this.$router.push({ name: "updateworker", params: { user: model } });
+    }
+  }
 };
 </script>
 
@@ -327,11 +300,8 @@ export default {
   cursor: pointer;
   transform: translateY(-10%);
 }
-.pageBtn:hover {
-  background-color: #418cfd;
-}
 .pageBtn:active {
-  background-color: #418cfd80;
+  background-color: #418cfd;
 }
 #result table {
   width: 100%;
@@ -349,14 +319,7 @@ export default {
   border: 2px solid #418cfd;
   background: white;
 }
-.actions span:nth-child(1) {
-  color: #8abf8a;
-  margin-right: 10px;
-  cursor: pointer;
-}
-.actions span:nth-child(2) {
-  color: #f57851;
-  margin-left: 10px;
+.actions span {
   cursor: pointer;
 }
 #pageCount {
@@ -380,5 +343,18 @@ export default {
   background: #418cfd50;
   border-radius: 50%;
   margin: 0 5px;
+  cursor: pointer;
+}
+.li-active {
+  background: #418cfd !important;
+}
+#updateBtn {
+  margin-right: 10px;
+}
+#updateBtn:hover {
+  color: #8abf8a;
+}
+#deleteBtn:hover {
+  color: #f77751;
 }
 </style>

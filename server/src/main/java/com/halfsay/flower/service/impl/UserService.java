@@ -4,9 +4,11 @@ import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.halfsay.flower.mapper.UserMapper;
 import com.halfsay.flower.pojo.Userinfo;
 import com.halfsay.flower.service.IUserService;
+import com.halfsay.flower.utils.MDigest5;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.Arrays;
 import java.util.List;
 
 @Service
@@ -30,4 +32,24 @@ public class UserService implements IUserService {
     public List<Userinfo> getWorkerList() {
         return userMapper.selectList(null);
     }
+
+    @Override
+    public int add(Userinfo userinfo) {
+        userinfo.setUserpwd(MDigest5.getMD5(userinfo.getUserpwd()));
+        if (ckUsername(userinfo.getUsername()) != null)
+            return 0;
+        else
+            return userMapper.insert(userinfo);
+    }
+
+    @Override
+    public int deleteBatch(String[] ids) {
+        return userMapper.deleteBatchIds(Arrays.asList(ids));
+    }
+
+    @Override
+    public int update(Userinfo model) {
+        return userMapper.updateById(model);
+    }
+
 }

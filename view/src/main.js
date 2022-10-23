@@ -9,6 +9,39 @@ Vue.config.productionTip = false;
 
 Vue.use(EventBus);
 
+router.beforeEach((to, from, next) => {
+  if (to.meta.requireAuth) {
+    if (localStorage.getItem("access_cquestor")) {
+      next();
+    } else {
+      next({
+        path: "/login",
+        query: {
+          redirect: to.fullPath
+        }
+      });
+    }
+  } else {
+    next();
+  }
+  if (to.fullPath == "/login") {
+    if (localStorage.getItem("access_cquestor")) {
+      next({
+        path: from.fullPath
+      });
+    } else {
+      next();
+    }
+  }
+  if (to.meta.needAdmin) {
+    if (localStorage.getItem("usertype") === "0") {
+      next();
+    } else {
+      next({ path: from.fullPath });
+    }
+  }
+});
+
 /* eslint-disable no-new */
 new Vue({
   el: "#app",

@@ -29,8 +29,16 @@ export default {
         if (res.statusCode !== 200) {
           this.$bus.emit("error", res.message);
         } else {
+          localStorage.setItem("userid", res.data.userid);
+          localStorage.setItem("username", res.data.username);
+          localStorage.setItem("usertype", res.data.usertype);
+          localStorage.setItem("access_cquestor", res.data.jwtToken);
           this.$bus.emit("success", res.message);
-          this.$router.replace("/index");
+          if (res.data.usertype === "0") {
+            this.$router.replace("/index/worker");
+          } else {
+            this.$router.replace("/index/member");
+          }
         }
       });
     }

@@ -3,6 +3,7 @@ package com.halfsay.flower.controller;
 import com.github.pagehelper.PageHelper;
 import com.github.pagehelper.PageInfo;
 import com.halfsay.flower.annotation.JWTIgnore;
+import com.halfsay.flower.pojo.BatchIds;
 import com.halfsay.flower.pojo.Loginuser;
 import com.halfsay.flower.pojo.Result;
 import com.halfsay.flower.pojo.Userinfo;
@@ -91,6 +92,65 @@ public class UserController {
         } catch (Exception e) {
             result.setStatusCode(500);
             result.setMessage("查询数据出错，请与管理员联系");
+        }
+        return result;
+    }
+
+    @RequestMapping("/add")
+    public Result add(@RequestBody Userinfo userinfo) {
+        Result result = new Result();
+        try {
+            int rows = userService.add(userinfo);
+            if (rows > 0) {
+                result.setStatusCode(200);
+                result.setMessage("已成功添加新的员工");
+            } else {
+                result.setStatusCode(300);
+                result.setMessage("添加新的员工失败，该用户名已存在");
+            }
+        } catch (Exception ex) {
+            System.out.println(ex);
+            result.setStatusCode(500);
+            result.setMessage("添加数据出错，请与管理员联系");
+        }
+        return result;
+    }
+
+    @RequestMapping("/deleteworkers")
+    public Result deleteBatchIds(@RequestBody BatchIds ids) {
+        Result result = new Result();
+        try {
+            int rows = userService.deleteBatch(ids.getIds());
+            if (rows > 0) {
+                result.setStatusCode(200);
+                result.setMessage("已成功删除工作人员的数据");
+            } else {
+                result.setStatusCode(300);
+                result.setMessage("删除数据出错，请与管理员联系");
+            }
+        } catch (Exception e) {
+            result.setStatusCode(500);
+            result.setMessage("删除数据出错，请与管理员联系");
+        }
+        return result;
+    }
+
+    @RequestMapping("/updateworker")
+    public Result update(@RequestBody Userinfo model) {
+        Result result = new Result();
+        try {
+            int rows = userService.update(model);
+            if (rows > 0) {
+                result.setStatusCode(200);
+                result.setMessage("已成功修改员工数据");
+            } else {
+                result.setStatusCode(300);
+                result.setMessage("修改员工数据失败");
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+            result.setStatusCode(500);
+            result.setMessage("修改数据出错，请与管理员联系");
         }
         return result;
     }

@@ -26,7 +26,10 @@ public class Userinfo {
                 this.usertypeName = "管理员";
                 break;
             case 1:
-                this.usertypeName = "店员";
+                this.usertypeName = "前台";
+                break;
+            case 2:
+                this.usertypeName = "销售人员";
                 break;
         }
         return this.usertypeName;
