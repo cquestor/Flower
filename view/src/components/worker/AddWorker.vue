@@ -176,7 +176,6 @@ export default {
         }).then(res => {
           if (res.statusCode === 200) {
             this.$bus.emit("success", res.message);
-            this.$router.back();
           } else {
             this.$bus.emit("error", res.message);
           }

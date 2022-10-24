@@ -32,7 +32,7 @@ export default {
           localStorage.setItem("userid", res.data.userid);
           localStorage.setItem("username", res.data.username);
           localStorage.setItem("usertype", res.data.usertype);
-          localStorage.setItem("access_cquestor", res.data.jwtToken);
+          localStorage.setItem("access_halfsay", res.data.jwtToken);
           this.$bus.emit("success", res.message);
           if (res.data.usertype === "0") {
             this.$router.replace("/index/worker");

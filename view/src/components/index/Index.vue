@@ -110,7 +110,8 @@ export default {
       localStorage.removeItem("userid");
       localStorage.removeItem("username");
       localStorage.removeItem("usertype");
-      localStorage.removeItem("access_cquestor");
+      localStorage.removeItem("access_halfsay");
+      this.$bus.emit("success", "退出成功");
       this.$router.replace("/login");
     }
   }

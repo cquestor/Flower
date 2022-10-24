@@ -6,6 +6,8 @@ import Worker from "../components/worker/Worker";
 import Member from "../components/member/Member";
 import AddWorker from "../components/worker/AddWorker";
 import UpdateWorker from "../components/worker/UpdateWorker";
+import AddMember from "../components/member/AddMember";
+import UpdateMember from "../components/member/UpdateMember";
 
 Vue.use(Router);
 
@@ -61,6 +63,22 @@ export default new Router({
           meta: {
             requireAuth: true,
             needAdmin: true
+          }
+        },
+        {
+          path: "addmember",
+          name: "addmember",
+          component: AddMember,
+          meta: {
+            requireAuth: true
+          }
+        },
+        {
+          path: "updatemember",
+          name: "updatemember",
+          component: UpdateMember,
+          meta: {
+            requireAuth: true
           }
         }
       ]

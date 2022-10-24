@@ -11,7 +11,7 @@ Vue.use(EventBus);
 
 router.beforeEach((to, from, next) => {
   if (to.meta.requireAuth) {
-    if (localStorage.getItem("access_cquestor")) {
+    if (localStorage.getItem("access_halfsay")) {
       next();
     } else {
       next({
@@ -25,7 +25,7 @@ router.beforeEach((to, from, next) => {
     next();
   }
   if (to.fullPath == "/login") {
-    if (localStorage.getItem("access_cquestor")) {
+    if (localStorage.getItem("access_halfsay")) {
       next({
         path: from.fullPath
       });

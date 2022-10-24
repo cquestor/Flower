@@ -2,41 +2,50 @@
   <div id="container">
     <table>
       <tr>
-        <td>用户名</td>
-        <td><input type="text" v-model="user.username" /></td>
+        <td>会员名称</td>
+        <td>
+          <input type="text" v-model="user.name" placeholder="请输入会员名称" />
+        </td>
+      </tr>
+      <tr>
+        <td>年龄</td>
+        <td>
+          <input type="text" v-model="user.age" placeholder="请输入年龄" />
+        </td>
       </tr>
       <tr>
         <td>性别</td>
         <td>
-          <input type="radio" value="男" v-model="user.gender" /><span>男</span>
-          <input type="radio" value="女" v-model="user.gender" /><span>女</span>
+          <input type="radio" value="男" v-model="user.sex" />男
+          <input type="radio" value="女" v-model="user.sex" />女
         </td>
       </tr>
       <tr>
-        <td>用户类型</td>
+        <td>联系方式</td>
         <td>
-          <select name="usertype" v-model="user.usertype">
-            <option value="1">前台</option>
-            <option value="2">销售人员</option>
-          </select>
+          <input
+            type="text"
+            v-model="user.phone"
+            placeholder="请输入联系方式"
+          />
         </td>
       </tr>
       <tr>
-        <td>地址</td>
+        <td>住址</td>
         <td>
-          <input v-model="user.address" type="text" />
+          <input type="text" v-model="user.address" placeholder="请输入住址" />
         </td>
       </tr>
       <tr>
-        <td>电话</td>
+        <td>偏好</td>
         <td>
-          <input v-model="user.phone" type="text" />
+          <input type="text" v-model="user.favour" placeholder="请输入偏好" />
         </td>
       </tr>
       <tr>
         <td></td>
         <td>
-          <button @click="updateOne">保存</button>
+          <button @click="submit">保存</button>
           <button @click="pageBack">返回</button>
         </td>
       </tr>
@@ -45,10 +54,10 @@
 </template>
 
 <script>
-import { updateWorker } from "../../api";
+import { updateMember } from "../../api";
 
 export default {
-  name: "UpdateWorker",
+  name: "UpdateMember",
   mounted() {
     this.user = this.$route.params["user"];
   },
@@ -61,8 +70,8 @@ export default {
     pageBack() {
       this.$router.back();
     },
-    updateOne() {
-      updateWorker(this.user).then(res => {
+    submit() {
+      updateMember(this.user).then(res => {
         if (res.statusCode === 200) {
           this.$bus.emit("success", res.message);
         } else {
@@ -78,7 +87,6 @@ export default {
 #container {
   width: 100%;
   height: 100%;
-  padding: 20px;
   display: flex;
   justify-content: center;
   align-items: flex-start;
@@ -91,15 +99,16 @@ table {
 }
 table td {
   border: 1px solid #00000050;
-  padding: 10px;
+}
+table tr {
+  height: 35px;
 }
 table tr td:nth-child(1) {
+  width: 100px;
   text-align: right;
   padding-right: 10px;
-  width: 100px;
 }
 table tr td:nth-child(2) {
-  text-align: left;
   padding-left: 10px;
 }
 table input[type="text"],
@@ -109,6 +118,12 @@ table select {
   height: 30px;
   font-size: 16px;
   padding-left: 5px;
+}
+table button {
+  width: 150px;
+  height: 30px;
+  border: none;
+  cursor: pointer;
 }
 table button:nth-child(1) {
   color: white;
@@ -120,17 +135,9 @@ table button:nth-child(1):active {
 table button:nth-child(2):active {
   background: #00000010;
 }
-table input[type="radio"] {
-  cursor: pointer;
-}
 table input ~ span {
   margin-left: 5px;
   font-size: 14px;
-}
-table button {
-  width: 150px;
-  height: 30px;
-  border: none;
-  cursor: pointer;
+  color: #f57851;
 }
 </style>
