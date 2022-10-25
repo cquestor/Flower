@@ -46,7 +46,6 @@ public class UserController {
         try {
             Userinfo resultUser = userService.ckUsername(username);
             if (resultUser != null) {
-                System.out.println(MDigest5.getMD5(userpwd));
                 if (MDigest5.getMD5(userpwd).equals(resultUser.getUserpwd())) {
                     String jwtToken = JWTUtils.createJwtToken(resultUser.getId().toString(), resultUser.getUsername());
                     Loginuser loginuser = new Loginuser();

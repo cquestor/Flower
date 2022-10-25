@@ -82,7 +82,7 @@
           <thead>
             <tr>
               <th>
-                <input type="checkbox" @click="ckAll" />
+                <input type="checkbox" @click="ckAll" id="allCheckBox" />
               </th>
               <th>会员名称</th>
               <th>性别</th>
@@ -190,6 +190,7 @@ export default {
         if (!confirm) return;
         deleteMembers({ ids: this.ids }).then(res => {
           if (res.statusCode === 200) {
+            document.getElementById("allCheckBox").checked = false;
             this.$bus.emit("success", res.message);
             this.load(this.member.pageNum);
           } else {

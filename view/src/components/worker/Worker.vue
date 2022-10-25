@@ -70,7 +70,7 @@
           <thead>
             <tr>
               <th>
-                <input type="checkbox" @click="ckAll" />
+                <input type="checkbox" @click="ckAll" id="allCheckBox" />
               </th>
               <th>姓名</th>
               <th>性别</th>
@@ -211,6 +211,7 @@ export default {
         if (!confirm) return;
         deleteWorkers({ ids: this.ids }).then(res => {
           if (res.statusCode === 200) {
+            document.getElementById("allCheckBox").checked = false;
             this.$bus.emit("success", res.message);
             this.load(this.worker.pageNum);
           } else {
