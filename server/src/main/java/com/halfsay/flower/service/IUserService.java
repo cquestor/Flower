@@ -44,4 +44,13 @@ public interface IUserService {
      * @return 成功/否
      */
     public int update(Userinfo model);
+
+    public Userinfo findById(Integer id);
+
+    /**
+     * 修改用户密码
+     * @param model 用户信息
+     * @return 成功/否
+     */
+    public int modfiyPwd(Userinfo model);
 }

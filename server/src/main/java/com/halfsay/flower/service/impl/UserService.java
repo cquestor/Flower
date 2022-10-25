@@ -52,4 +52,22 @@ public class UserService implements IUserService {
         return userMapper.updateById(model);
     }
 
+    @Override
+    public Userinfo findById(Integer id) {
+        return userMapper.selectById(id);
+    }
+
+    @Override
+    public int modfiyPwd(Userinfo model) {
+        int row = 0;
+        Userinfo oldUser = findById(model.getId());
+        if(oldUser != null ){
+            if(MDigest5.getMD5(model.getOlduserpwd()).equals(oldUser.getUserpwd())){
+                oldUser.setUserpwd(MDigest5.getMD5(model.getUserpwd()));
+                row = userMapper.updateById(oldUser);
+            }
+        }
+        return row;
+    }
+
 }

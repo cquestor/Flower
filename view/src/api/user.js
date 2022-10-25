@@ -38,3 +38,11 @@ export function updateWorker(model) {
     data: model
   });
 }
+
+export function modifyPwd(model) {
+  return request({
+    url: "/user/modifypwd",
+    method: "POST",
+    data: model
+  });
+}

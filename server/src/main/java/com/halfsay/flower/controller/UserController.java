@@ -154,4 +154,24 @@ public class UserController {
         }
         return result;
     }
+
+    @RequestMapping("/modifypwd")
+    public Result modify(@RequestBody Userinfo model) {
+        Result result = new Result();
+        try {
+            int rows = userService.modfiyPwd(model);
+            if (rows > 0) {
+                result.setStatusCode(200);
+                result.setMessage("已成功修改密码");
+            } else {
+                result.setStatusCode(300);
+                result.setMessage("原密码不正确");
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+            result.setStatusCode(500);
+            result.setMessage("修改数据出错，请与管理员联系");
+        }
+        return result;
+    }
 }

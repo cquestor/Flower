@@ -8,6 +8,7 @@ import AddWorker from "../components/worker/AddWorker";
 import UpdateWorker from "../components/worker/UpdateWorker";
 import AddMember from "../components/member/AddMember";
 import UpdateMember from "../components/member/UpdateMember";
+import ModifyPasswd from "../components/modifypasswd/ModifyPasswd";
 
 Vue.use(Router);
 
@@ -77,6 +78,14 @@ export default new Router({
           path: "updatemember",
           name: "updatemember",
           component: UpdateMember,
+          meta: {
+            requireAuth: true
+          }
+        },
+        {
+          path: "modifypasswd",
+          name: "modifypasswd",
+          component: ModifyPasswd,
           meta: {
             requireAuth: true
           }
