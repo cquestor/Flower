@@ -49,8 +49,16 @@ public interface IUserService {
 
     /**
      * 修改用户密码
+     *
      * @param model 用户信息
      * @return 成功/否
      */
     public int modfiyPwd(Userinfo model);
+
+    /**
+     * 获取销售人员数据
+     *
+     * @return 销售人员
+     */
+    public List<Userinfo> getSellList();
 }

@@ -46,3 +46,10 @@ export function modifyPwd(model) {
     data: model
   });
 }
+
+export function getSellList() {
+  return request({
+    url: "/user/getselllist",
+    method: "POST"
+  });
+}

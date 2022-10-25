@@ -61,13 +61,20 @@ public class UserService implements IUserService {
     public int modfiyPwd(Userinfo model) {
         int row = 0;
         Userinfo oldUser = findById(model.getId());
-        if(oldUser != null ){
-            if(MDigest5.getMD5(model.getOlduserpwd()).equals(oldUser.getUserpwd())){
+        if (oldUser != null) {
+            if (MDigest5.getMD5(model.getOlduserpwd()).equals(oldUser.getUserpwd())) {
                 oldUser.setUserpwd(MDigest5.getMD5(model.getUserpwd()));
                 row = userMapper.updateById(oldUser);
             }
         }
         return row;
+    }
+
+    @Override
+    public List<Userinfo> getSellList() {
+        QueryWrapper<Userinfo> queryWrapper = new QueryWrapper<>();
+        queryWrapper.eq("usertype", 2);
+        return userMapper.selectList(queryWrapper);
     }
 
 }

@@ -15,7 +15,7 @@ public class Userinfo {
     private String olduserpwd;  //原始密码
     private Integer usertype;  //用户类型
     @TableField(exist = false)
-    private String usertypeName;  //用户类型 0.管理员 1.店员
+    private String usertypeName;  //用户类型 0.管理员 1.前台 2.销售人员
     private String gender;  //性别
     private String address;  //地址
     private String phone;  //电话

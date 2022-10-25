@@ -174,4 +174,25 @@ public class UserController {
         }
         return result;
     }
+
+    @RequestMapping("getselllist")
+    public Result getSellList() {
+        Result result = new Result();
+        try {
+            List<Userinfo> list = userService.getSellList();
+            if (list != null) {
+                result.setStatusCode(200);
+                result.setMessage("success");
+                result.setData(list);
+            } else {
+                result.setStatusCode(300);
+                result.setMessage("没有查找到销售人员信息");
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+            result.setStatusCode(500);
+            result.setMessage("查询数据出错，请联系管理员");
+        }
+        return result;
+    }
 }
