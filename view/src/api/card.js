@@ -14,3 +14,18 @@ export function addCardRecord(model) {
     data: model
   });
 }
+
+export function addCardType(model) {
+  return request({
+    url: "/cardtype/add",
+    method: "POST",
+    data: model
+  });
+}
+
+export function ckCardTypeName(cardName) {
+  return request({
+    url: `/cardtype/ckcardname/${cardName}`,
+    method: "POST"
+  });
+}

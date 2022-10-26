@@ -60,11 +60,11 @@ export default {
         }
       });
     },
-    ckCid() {
+    async ckCid() {
       if (this.cid == "") {
         this.errCid = "*请输入会员卡ID";
         return false;
-      } else if (!this.getCid()) {
+      } else if (!(await this.getCid())) {
         this.errCid = "*会员卡不存在";
         return false;
       } else {
@@ -72,17 +72,16 @@ export default {
         return true;
       }
     },
-    getCid() {
-      findCardById(this.cid).then(res => {
-        if (res.statusCode === 200) {
-          return true;
-        } else {
-          return false;
-        }
-      });
+    async getCid() {
+      var res = await findCardById(this.cid);
+      if (res.statusCode === 200) {
+        return true;
+      } else {
+        return false;
+      }
     },
-    submit() {
-      if (this.ckCid()) {
+    async submit() {
+      if (await this.ckCid()) {
         addCardRecord({
           cid: this.cid,
           userid: this.userid,
