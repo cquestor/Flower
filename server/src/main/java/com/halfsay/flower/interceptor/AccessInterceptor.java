@@ -5,7 +5,6 @@ import com.halfsay.flower.utils.JWTUtils;
 import org.springframework.http.HttpMethod;
 import org.springframework.web.method.HandlerMethod;
 import org.springframework.web.servlet.HandlerInterceptor;
-import org.springframework.web.servlet.HandlerMapping;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;

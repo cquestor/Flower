@@ -69,6 +69,28 @@
               p-id="5884"
             ></path>
           </svg>
+          <span>会员卡类型管理</span>
+        </router-link>
+        <router-link
+          class="sidebtn"
+          to="/index/card"
+          exact-active-class="active"
+        >
+          <svg
+            t="1666874994096"
+            class="icon"
+            viewBox="0 0 1024 1024"
+            version="1.1"
+            xmlns="http://www.w3.org/2000/svg"
+            p-id="5883"
+            width="200"
+            height="200"
+          >
+            <path
+              d="M789.333333 234.666667a64 64 0 0 1 64 64v426.666666a64 64 0 0 1-64 64H234.666667a64 64 0 0 1-64-64V298.666667a64 64 0 0 1 64-64h554.666666z m0 64H234.666667v426.666666h554.666666V298.666667zM384 618.666667v64h-106.666667v-64h106.666667z m362.666667-213.333334v64H277.333333v-64h469.333334z"
+              p-id="5884"
+            ></path>
+          </svg>
           <span>会员卡管理</span>
         </router-link>
         <router-link
@@ -173,9 +195,7 @@
           </div>
         </div>
       </div>
-      <div id="banner">
-        首页&nbsp;>>&nbsp;员工管理
-      </div>
+      <div id="banner">首页&nbsp;>>&nbsp;{{ pagename }}</div>
       <div id="content">
         <router-view />
       </div>
@@ -190,8 +210,34 @@ export default {
     return {
       userid: localStorage.getItem("userid"),
       username: localStorage.getItem("username"),
-      usertype: localStorage.getItem("usertype")
+      usertype: localStorage.getItem("usertype"),
+      pagename:
+        localStorage.getItem("usertype") == "0" ? "员工管理" : "会员管理"
     };
+  },
+  watch: {
+    $route(to, from) {
+      switch (to.name) {
+        case "worker":
+          this.pagename = "员工管理";
+          break;
+        case "member":
+          this.pagename = "会员管理";
+          break;
+        case "cardtype":
+          this.pagename = "会员卡类型管理";
+          break;
+        case "card":
+          this.pagename = "会员卡管理";
+          break;
+        case "adduserecord":
+          this.pagename = "消卡管理";
+          break;
+        case "modifypasswd":
+          this.pagename = "修改密码";
+          break;
+      }
+    }
   },
   methods: {
     quit() {

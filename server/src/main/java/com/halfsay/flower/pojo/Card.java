@@ -25,7 +25,7 @@ public class Card implements Serializable {
     @TableField(exist = false)
     private String username;
     @JsonFormat(pattern = "yyyy-MM-dd hh:mm:ss")
-    private Date createddate;
+    private Date createdate;
     private Integer cstate;
     @TableField(exist = false)
     private String cstateV;

@@ -37,3 +37,10 @@ export function updateMember(model) {
     data: model
   });
 }
+
+export function getAllMembers() {
+  return request({
+    url: "/member/getlist",
+    method: "POST"
+  });
+}

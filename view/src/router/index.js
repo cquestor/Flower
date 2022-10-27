@@ -12,6 +12,9 @@ import ModifyPasswd from "../components/modifypasswd/ModifyPasswd";
 import AddUseRecord from "../components/record/AddUseRecord";
 import CardType from "../components/cardtype/CardType";
 import AddCardType from "../components/cardtype/AddCardType";
+import UpdateCardType from "../components/cardtype/UpdateCardType";
+import Card from "../components/card/Card";
+import AddCard from "../components/card/AddCard";
 
 Vue.use(Router);
 
@@ -113,6 +116,30 @@ export default new Router({
           path: "addcardtype",
           name: "addcardtype",
           component: AddCardType,
+          meta: {
+            requireAuth: true
+          }
+        },
+        {
+          path: "updatecardtype",
+          name: "updatecardtype",
+          component: UpdateCardType,
+          meta: {
+            requireAuth: true
+          }
+        },
+        {
+          path: "card",
+          name: "card",
+          component: Card,
+          meta: {
+            requireAuth: true
+          }
+        },
+        {
+          path: "addcard",
+          name: "addcard",
+          component: AddCard,
           meta: {
             requireAuth: true
           }

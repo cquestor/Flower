@@ -26,7 +26,7 @@ public class CardService implements ICardService {
 
     @Override
     public int add(Card card) {
-        card.setCreateddate(new Date());
+        card.setCreatedate(new Date());
         return cardMapper.insert(card);
     }
 

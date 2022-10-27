@@ -29,3 +29,41 @@ export function ckCardTypeName(cardName) {
     method: "POST"
   });
 }
+
+export function getCardTypeList() {
+  return request({
+    url: "/cardtype/getlist",
+    method: "POST"
+  });
+}
+
+export function deleteCardType(target) {
+  return request({
+    url: `/cardtype/del/${target}`,
+    method: "POST"
+  });
+}
+
+export function updateCardType(model) {
+  return request({
+    url: "/cardtype/update",
+    method: "POST",
+    data: model
+  });
+}
+
+export function getCardList(pageIndex) {
+  return request({
+    url: `/card/getpagelist/${pageIndex}/12`,
+    method: "POST",
+    data: {}
+  });
+}
+
+export function addCard(model) {
+  return request({
+    url: "/card/add",
+    method: "POST",
+    data: model
+  });
+}

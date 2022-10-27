@@ -8,7 +8,6 @@
             type="text"
             v-model="cardName"
             placeholder="请输入充值卡名称"
-            @blur="ckCardName"
           />
           <span>{{ errCardName }}</span>
         </td>
@@ -69,10 +68,19 @@
 </template>
 
 <script>
-import { addCardType, ckCardTypeName } from "../../api";
+import { updateCardType, ckCardTypeName } from "../../api";
 
 export default {
-  name: "AddCardType",
+  name: "UpdateCardType",
+  mounted() {
+    let card = this.$route.params["card"];
+    this.cardName = card.cardName;
+    this.cardPrice = card.cardPrice;
+    this.cardExpireDay = card.cardExpireDay;
+    this.cardSee = card.cardSee;
+    this.cardRank = card.cardRank;
+    this.cardId = card.id;
+  },
   data() {
     return {
       errCardName: "",
@@ -82,22 +90,11 @@ export default {
       cardPrice: "",
       cardExpireDay: "",
       cardSee: 1,
-      cardRank: 1
+      cardRank: 1,
+      cardId: ""
     };
   },
   methods: {
-    async ckCardName() {
-      if (this.cardName == "") {
-        this.errCardName = "*请输入充值卡名称";
-        return false;
-      } else if (!(await this.ckCardNameExist())) {
-        this.errCardName = "*该名称已存在";
-        return false;
-      } else {
-        this.errCardName = "";
-        return true;
-      }
-    },
     ckCardPrice() {
       if (this.cardPrice == "") {
         this.errCardPrice = "请输入充值卡价格";
@@ -128,12 +125,9 @@ export default {
       }
     },
     async submit() {
-      if (
-        (await this.ckCardName()) &
-        this.ckCardPrice() &
-        this.ckCardExpireDay()
-      ) {
-        addCardType({
+      if (this.ckCardPrice() & this.ckCardExpireDay()) {
+        updateCardType({
+          id: this.cardId,
           cardName: this.cardName,
           cardPrice: this.cardPrice,
           cardExpireDay: this.cardExpireDay,

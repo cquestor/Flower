@@ -123,4 +123,25 @@ public class MemberController {
         }
         return result;
     }
+
+    @RequestMapping("/getlist")
+    public Result getMembers() {
+        Result result = new Result();
+        try {
+            List<Member> list = memberService.getList();
+            if (list != null && list.size() > 0) {
+                result.setStatusCode(200);
+                result.setMessage("success");
+                result.setData(list);
+            } else {
+                result.setStatusCode(300);
+                result.setMessage("没有查询到相关数据");
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+            result.setStatusCode(500);
+            result.setMessage("查询出错，请与管理员联系");
+        }
+        return result;
+    }
 }
