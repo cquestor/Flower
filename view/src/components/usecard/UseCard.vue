@@ -2,10 +2,10 @@
   <div id="container">
     <!-- 搜索区 -->
     <div id="searchBar">
-      <span>请输入会员名称:</span>
+      <span>请输入会员卡ID:</span>
       <input
         type="text"
-        placeholder="请输入会员名称"
+        placeholder="请输入会员卡ID"
         v-model="searchName"
         @input="cksearch"
       />
@@ -14,23 +14,7 @@
 
     <!-- 新增|删除 按钮 -->
     <div id="btnBar">
-      <span class="btn" @click="addCard">
-        <svg
-          viewBox="0 0 1024 1024"
-          version="1.1"
-          xmlns="http://www.w3.org/2000/svg"
-          p-id="6247"
-          width="20"
-          height="20"
-        >
-          <path
-            d="M544 213.333333v266.666667H810.666667v64H544V810.666667h-64V544H213.333333v-64h266.666667V213.333333z"
-            p-id="6248"
-            fill="#eeeeee"
-          ></path>
-        </svg>
-        <span>新增会员卡</span>
-      </span>
+      <span class="btn" @click="addCard"> </span>
       <span class="btn">
         <svg
           t="1666345290655"
@@ -57,7 +41,7 @@
       <div
         id="preBtn"
         class="pageBtn"
-        :style="cards.hasPreviousPage ? '' : 'visibility: hidden;'"
+        :style="records.hasPreviousPage ? '' : 'visibility: hidden;'"
         @click="prePage"
       >
         <svg
@@ -86,16 +70,14 @@
               </th>
               <th>会员卡号</th>
               <th>持卡人</th>
-              <th>会员卡类型</th>
-              <th>创建人</th>
-              <th>卡状态</th>
-              <th>开卡时间</th>
-              <th>操作</th>
+              <th>消卡人</th>
+              <th>消卡时间</th>
+              <th>备注</th>
             </tr>
           </thead>
 
           <tbody>
-            <tr v-for="item in cards.list" :key="item.id">
+            <tr v-for="item in records.list" :key="item.id">
               <td>
                 <input
                   type="checkbox"
@@ -106,14 +88,9 @@
               </td>
               <td>{{ item.id }}</td>
               <td>{{ item.mname }}</td>
-              <td>{{ item.ctname }}</td>
               <td>{{ item.username }}</td>
-              <td>{{ item.cstateV }}</td>
-              <td>{{ item.createdate }}</td>
-              <td class="actions">
-                <span id="updateBtn" @click="updateOne(item)">修改</span>
-                <span id="deleteBtn" @click="delOne(item.id)">删除</span>
-              </td>
+              <td>{{ item.usedate }}</td>
+              <td>{{ item.memo }}</td>
             </tr>
           </tbody>
         </table>
@@ -122,9 +99,9 @@
         <div id="pageCount">
           <ul>
             <li
-              v-for="item in cards.navigatepageNums"
+              v-for="item in records.navigatepageNums"
               :key="item"
-              :class="item == cards.pageNum ? 'li-active' : ''"
+              :class="item == records.pageNum ? 'li-active' : ''"
               @click="load(item)"
             ></li>
           </ul>
@@ -135,7 +112,7 @@
       <div
         id="sufBtn"
         class="pageBtn"
-        :style="cards.hasNextPage ? '' : 'visibility: hidden;'"
+        :style="records.hasNextPage ? '' : 'visibility: hidden;'"
         @click="nextPage"
       >
         <svg
@@ -158,28 +135,27 @@
 </template>
 
 <script>
-import { getCardList, findMember, deleteCard } from "../../api";
+import { getRecords, deleteRecords } from "../../api";
 
 export default {
-  name: "Card",
+  name: "UseCard",
   data() {
     return {
-      cards: "",
+      records: "",
       ids: [],
       searchName: ""
     };
   },
-  mounted() {
-    this.load(1);
-  },
   methods: {
     load(pageIndex) {
-      getCardList(pageIndex).then(res => {
+      getRecords({
+        cid: this.searchName
+      }).then(res => {
         console.log(res);
         if (res.statusCode === 200) {
-          this.cards = res.data;
+          this.records = res.data;
         } else {
-          this.$bus.emit("error", res.message);
+          this.records = "";
         }
       });
     },
@@ -190,11 +166,11 @@ export default {
       if (this.ids.length > 0) {
         const confirm = window.confirm("确定要删除吗？");
         if (!confirm) return;
-        deleteCard({ ids: this.ids }).then(res => {
+        deleteRecords({ ids: this.ids }).then(res => {
           if (res.statusCode === 200) {
             document.getElementById("allCheckBox").checked = false;
             this.$bus.emit("success", res.message);
-            this.load(this.cards.pageNum);
+            this.load(this.records.pageNum);
           } else {
             this.$bus.emit("error", res.message);
           }
@@ -202,7 +178,7 @@ export default {
       }
     },
     prePage() {
-      this.load(this.cards.prePage);
+      this.load(this.records.prePage);
     },
     ckAll(e) {
       this.ids = [];
@@ -211,7 +187,7 @@ export default {
         element.checked = e.target.checked;
       });
       if (e.target.checked) {
-        this.cards.list.forEach(item => {
+        this.records.list.forEach(item => {
           this.ids.push(item.id);
         });
       }
@@ -230,10 +206,10 @@ export default {
     delOne(target) {
       const confirm = window.confirm("确定要删除吗？");
       if (!confirm) return;
-      deleteCard({ ids: [target] }).then(res => {
+      deleteRecords({ ids: [target] }).then(res => {
         if (res.statusCode === 200) {
           this.$bus.emit("success", res.message);
-          this.load(this.cards.pageNum);
+          this.load(this.records.pageNum);
         } else {
           this.$bus.emit("error", res.message);
         }
@@ -243,9 +219,12 @@ export default {
       this.load(this.member.nextPage);
     },
     search() {
-      findMember(1, this.searchName).then(res => {
+      getRecords({
+        cid: this.searchName
+      }).then(res => {
         if (res.statusCode === 200) {
-          this.member = res.data;
+          this.records = res.data;
+          this.$bus.emit("success", res.message);
         } else {
           this.$bus.emit("error", res.message);
         }

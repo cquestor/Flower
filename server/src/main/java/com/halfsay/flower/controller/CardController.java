@@ -8,6 +8,7 @@ import com.halfsay.flower.pojo.Result;
 import com.halfsay.flower.service.ICardService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.multipart.MultipartFile;
 
 import java.util.List;
 
@@ -82,6 +83,7 @@ public class CardController {
     @RequestMapping("/update")
     public Result update(@RequestBody Card model) {
         Result result = new Result();
+        System.out.println(model);
         try {
             int rows = cardService.update(model);
             if (rows > 0) {

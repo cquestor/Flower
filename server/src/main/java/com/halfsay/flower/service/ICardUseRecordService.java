@@ -28,4 +28,6 @@ public interface ICardUseRecordService {
      * @return 成功/否
      */
     public int delete(String[] ids);
+
+    public List<CardUseRecord> getPagelist(CardUseRecord model);
 }

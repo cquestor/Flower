@@ -69,4 +69,9 @@ public class CardUseRecordService implements ICardUseRecordService {
     public int delete(String[] ids) {
         return cardUseRecordMapper.deleteBatchIds(Arrays.asList(ids));
     }
+
+    @Override
+    public List<CardUseRecord> getPagelist(CardUseRecord model) {
+        return cardUseRecordMapper.getPageList(model);
+    }
 }

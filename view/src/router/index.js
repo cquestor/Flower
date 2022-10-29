@@ -15,6 +15,8 @@ import AddCardType from "../components/cardtype/AddCardType";
 import UpdateCardType from "../components/cardtype/UpdateCardType";
 import Card from "../components/card/Card";
 import AddCard from "../components/card/AddCard";
+import UpdateCard from "../components/card/UpdateCard";
+import UseCard from "../components/usecard/UseCard";
 
 Vue.use(Router);
 
@@ -140,6 +142,22 @@ export default new Router({
           path: "addcard",
           name: "addcard",
           component: AddCard,
+          meta: {
+            requireAuth: true
+          }
+        },
+        {
+          path: "updatecard",
+          name: "updatecard",
+          component: UpdateCard,
+          meta: {
+            requireAuth: true
+          }
+        },
+        {
+          path: "usecard",
+          name: "usecard",
+          component: UseCard,
           meta: {
             requireAuth: true
           }

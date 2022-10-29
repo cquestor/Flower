@@ -67,3 +67,42 @@ export function addCard(model) {
     data: model
   });
 }
+
+export function findCardType(id) {
+  return request({
+    url: `/cardtype/findbyid/${id}`,
+    method: "POST"
+  });
+}
+
+export function deleteCard(params = {}) {
+  return request({
+    url: "/card/delete",
+    method: "POST",
+    data: params
+  });
+}
+
+export function updateCard(model) {
+  return request({
+    url: "/card/update",
+    method: "POST",
+    data: model
+  });
+}
+
+export function getRecords(model) {
+  return request({
+    url: "/usecard/getpagelist",
+    method: "POST",
+    data: model
+  });
+}
+
+export function deleteRecords(params = {}) {
+  return request({
+    url: "/usecard/delete",
+    method: "POST",
+    data: params
+  });
+}
