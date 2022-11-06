@@ -17,6 +17,7 @@ import Card from "../components/card/Card";
 import AddCard from "../components/card/AddCard";
 import UpdateCard from "../components/card/UpdateCard";
 import UseCard from "../components/usecard/UseCard";
+import Flower from "../components/flower/Flower";
 
 Vue.use(Router);
 
@@ -158,6 +159,14 @@ export default new Router({
           path: "usecard",
           name: "usecard",
           component: UseCard,
+          meta: {
+            requireAuth: true
+          }
+        },
+        {
+          path: "flower",
+          name: "flower",
+          component: Flower,
           meta: {
             requireAuth: true
           }

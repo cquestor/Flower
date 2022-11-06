@@ -1,4 +1,4 @@
-package com.halfsay.flower;
+package com.halfsay.info;
 
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
@@ -9,16 +9,10 @@ import org.springframework.web.client.RestTemplate;
 
 @SpringBootApplication
 @EnableDiscoveryClient
-public class FlowerApplication {
-
-    @LoadBalanced
-    @Bean
-    public RestTemplate restTemplate() {
-        return new RestTemplate();
-    }
+public class InfoApplication {
 
     public static void main(String[] args) {
-        SpringApplication.run(FlowerApplication.class, args);
+        SpringApplication.run(InfoApplication.class, args);
     }
 
 }

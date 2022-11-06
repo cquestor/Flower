@@ -10,6 +10,7 @@ Vue.config.productionTip = false;
 Vue.use(EventBus);
 
 router.beforeEach((to, from, next) => {
+  console.log(to.fullPath);
   if (to.meta.requireAuth) {
     if (localStorage.getItem("access_halfsay")) {
       next();
